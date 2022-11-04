@@ -33,3 +33,14 @@ window.onload = () => {
   colorPalette[2].style.backgroundColor = JSON.parse(colorParse).color2;
   colorPalette[3].style.backgroundColor = JSON.parse(colorParse).color3;
 };
+
+for (let i = 0; i < colorPalette.length; i += 1) {
+  colorPalette[i].addEventListener('click', (color) => {
+    console.log(color.target);
+    colorPalette[0].classList.remove('selected');
+    colorPalette[1].classList.remove('selected');
+    colorPalette[2].classList.remove('selected');
+    colorPalette[3].classList.remove('selected');
+    color.target.classList.add('selected');
+  });
+}
