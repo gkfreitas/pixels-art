@@ -25,11 +25,11 @@ for (let i = 1; i <= 25; i += 1) {
   pixelDiv.className = 'pixel';
   pixel.appendChild(pixelDiv);
 }
-const storageColor = () => {
+
+window.onload = () => {
   const colorParse = localStorage.getItem('colorPalette');
+  colorPalette[0].classList.add('selected');
   colorPalette[1].style.backgroundColor = JSON.parse(colorParse).color1;
   colorPalette[2].style.backgroundColor = JSON.parse(colorParse).color2;
   colorPalette[3].style.backgroundColor = JSON.parse(colorParse).color3;
 };
-
-window.onload = storageColor;
