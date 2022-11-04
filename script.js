@@ -19,13 +19,12 @@ randomColor.addEventListener('click', () => {
   }
 });
 
-const pixel = document.getElementById('parent-pixel');
+const pixel = document.getElementById('pixel-board');
 for (let i = 1; i <= 25; i += 1) {
   const pixelDiv = document.createElement('div');
   pixelDiv.className = 'pixel';
   pixel.appendChild(pixelDiv);
 }
-
 const storageColor = () => {
   const colorParse = localStorage.getItem('colorPalette');
   colorPalette[1].style.backgroundColor = JSON.parse(colorParse).color1;
