@@ -25,22 +25,32 @@ for (let i = 1; i <= 25; i += 1) {
   pixelDiv.className = 'pixel';
   pixel.appendChild(pixelDiv);
 }
-
-window.onload = () => {
-  const colorParse = localStorage.getItem('colorPalette');
-  colorPalette[0].classList.add('selected');
-  colorPalette[1].style.backgroundColor = JSON.parse(colorParse).color1;
-  colorPalette[2].style.backgroundColor = JSON.parse(colorParse).color2;
-  colorPalette[3].style.backgroundColor = JSON.parse(colorParse).color3;
-};
-
+let colorSelected = 'black';
+const divPixel = document.getElementsByClassName('pixel');
 for (let i = 0; i < colorPalette.length; i += 1) {
   colorPalette[i].addEventListener('click', (color) => {
-    console.log(color.target);
     colorPalette[0].classList.remove('selected');
     colorPalette[1].classList.remove('selected');
     colorPalette[2].classList.remove('selected');
     colorPalette[3].classList.remove('selected');
     color.target.classList.add('selected');
+    colorSelected = color.target.style.backgroundColor;
   });
 }
+
+for (let i = 0; i < divPixel.length; i += 1) {
+  divPixel[i].addEventListener('click', (color) => {
+    color.target.style.backgroundColor = colorSelected;
+  });
+}
+
+window.onload = () => {
+  if (localStorage.getItem('colorPalette') === null) {
+    console.log('null Color Palette');
+  } else {
+    const colorParse = JSON.parse(localStorage.getItem('colorPalette'));
+    colorPalette[1].style.backgroundColor = colorParse.color1;
+    colorPalette[2].style.backgroundColor = colorParse.color2;
+    colorPalette[3].style.backgroundColor = colorParse.color3;
+  }
+};
