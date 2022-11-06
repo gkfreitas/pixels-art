@@ -6,7 +6,7 @@ colorPalette[2].style.backgroundColor = 'green';
 colorPalette[3].style.backgroundColor = 'blue';
 
 const randomColor = document.getElementById('button-random-color');
-const localObj = {};
+const localColorObj = {};
 randomColor.addEventListener('click', () => {
   for (let i = 1; i < colorPalette.length; i += 1) {
     const rndNumber1 = Math.random() * (255 - 0) + 0;
@@ -14,8 +14,8 @@ randomColor.addEventListener('click', () => {
     const rndNumber3 = Math.random() * (255 - 0) + 0;
     colorPalette[i].style.backgroundColor = `rgb(${rndNumber1},${rndNumber2},${rndNumber3})`;
     const keyObj = `color${i}`;
-    localObj[keyObj] = colorPalette[i].style.backgroundColor;
-    localStorage.setItem('colorPalette', JSON.stringify(localObj));
+    localColorObj[keyObj] = colorPalette[i].style.backgroundColor;
+    localStorage.setItem('colorPalette', JSON.stringify(localColorObj));
   }
 });
 
@@ -37,10 +37,14 @@ for (let i = 0; i < colorPalette.length; i += 1) {
     colorSelected = color.target.style.backgroundColor;
   });
 }
-
+let localPixelObj = {};
 for (let i = 0; i < divPixel.length; i += 1) {
+  
+  let keyObj = `position${i}`;
   divPixel[i].addEventListener('click', (color) => {
-    color.target.style.backgroundColor = colorSelected;
+  color.target.style.backgroundColor = colorSelected;
+  localPixelObj[keyObj] = color.target.style.backgroundColor;
+  localStorage.setItem('pixelBoard', JSON.stringify(localPixelObj));
   });
 }
 
@@ -50,6 +54,7 @@ clearBoard.addEventListener('click', () => {
   for (let i = 0; i < pixelBoard.length; i += 1){
     pixelBoard[i].style.backgroundColor = 'white';
   }
+  localStorage.removeItem('pixelBoard');
 });
 
 window.onload = () => {
@@ -57,8 +62,18 @@ window.onload = () => {
     console.log('null Color Palette');
   } else {
     const colorParse = JSON.parse(localStorage.getItem('colorPalette'));
-    colorPalette[1].style.backgroundColor = colorParse.color1;
-    colorPalette[2].style.backgroundColor = colorParse.color2;
-    colorPalette[3].style.backgroundColor = colorParse.color3;
+    for (let i = 1; i < colorPalette.length; i += 1) {
+      colorPalette[i].style.backgroundColor = colorParse[`color${i}`];
+    }
+  }
+  if (localStorage.getItem('pixelBoard') === null) {
+    console.log('null pixel Board');
+  } else {
+    const pixelParse = JSON.parse(localStorage.getItem('pixelBoard'));
+    console.log(pixelParse);
+    localPixelObj = pixelParse;
+    for (let i = 0; i < divPixel.length; i += 1) {
+      divPixel[i].style.backgroundColor = pixelParse[`position${i}`];
+    }
   }
 };
