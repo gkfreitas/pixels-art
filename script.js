@@ -44,6 +44,14 @@ for (let i = 0; i < divPixel.length; i += 1) {
   });
 }
 
+const clearBoard = document.getElementById('clear-board');
+const pixelBoard = document.getElementsByClassName('pixel');
+clearBoard.addEventListener('click', () => {
+  for (let i = 0; i < pixelBoard.length; i += 1){
+    pixelBoard[i].style.backgroundColor = 'white';
+  }
+});
+
 window.onload = () => {
   if (localStorage.getItem('colorPalette') === null) {
     console.log('null Color Palette');

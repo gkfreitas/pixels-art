@@ -7,11 +7,19 @@
 }
 
 #button-random-color {
-  display: block;
+  display: inline-block;
 }
 
 #pixel-board {
   width: 240px;
+}
+
+.buttons {
+  width: 200px;
+}
+
+#clear-board {
+  display: inline-block;
 }
 
 .pixel {
