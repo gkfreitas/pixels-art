@@ -50,11 +50,27 @@ for (let i = 0; i < divPixel.length; i += 1) {
 
 const clearBoard = document.getElementById('clear-board');
 const pixelBoard = document.getElementsByClassName('pixel');
-clearBoard.addEventListener('click', () => {
+clearBoard.addEventListener('click', clearBoardF) 
+function clearBoardF() {
   for (let i = 0; i < pixelBoard.length; i += 1){
     pixelBoard[i].style.backgroundColor = 'white';
   }
   localStorage.removeItem('pixelBoard');
+};
+
+const buttonVQV = document.getElementById('generate-board');
+buttonVQV.addEventListener('click', () => {
+  clearBoardF();
+  const inputVQV = document.getElementById('board-size');
+  if (inputVQV.value <= 0) {
+    alert('Board Inválido!');
+  } else {
+    for (let i = 0; i < divPixel.length; i += 1) {
+      const valueInput = inputVQV.value ** 2;
+      divPixel[i].style.width = `${valueInput}px`;
+      divPixel[i].style.height = `${valueInput}px`;
+    }
+  }
 });
 
 window.onload = () => {
