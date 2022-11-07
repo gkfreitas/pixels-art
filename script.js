@@ -30,14 +30,25 @@ function createPixel(value) {
 createPixel(25);
 
 const buttonVQV = document.getElementById('generate-board');
-buttonVQV.addEventListener('click', () => {
-  const inputVQV = document.getElementById('board-size');
-  let inputValue = inputVQV.value;
+const inputVQV = document.getElementById('board-size');
+
+let inputValue = 0;
+
+function inputBoard() {
+  inputValue = inputVQV.value;
   if (inputValue < 5 && inputValue > 0) {
     inputValue = 5;
   } else if (inputValue > 50) {
     inputValue = 50;
   }
+
+  return inputValue;
+}
+buttonVQV.addEventListener('click', inputBoard);
+const divPixel = document.getElementsByClassName('pixel');
+let localPixelObj = {};
+
+function changeBoard() {
   if (inputValue <= 0) {
     alert('Board Inválido!');
   } else {
@@ -47,7 +58,29 @@ buttonVQV.addEventListener('click', () => {
     const valueInput = inputValue ** 2;
     createPixel(valueInput);
   }
-});
+  localStorage.setItem('boardSize', JSON.stringify(inputValue ** 2));
+  for (let i = 0; i < divPixel.length; i += 1) {
+    const keyObj = `position${i}`;
+    divPixel[i].addEventListener('click', changeColor);
+
+    function changeColor(color) {
+    color.target.style.backgroundColor = colorSelected;
+    localPixelObj[keyObj] = color.target.style.backgroundColor;
+    localStorage.setItem('pixelBoard', JSON.stringify(localPixelObj));
+    };
+  }
+}
+buttonVQV.addEventListener('click', changeBoard);
+for (let i = 0; i < divPixel.length; i += 1) {
+  const keyObj = `position${i}`;
+  divPixel[i].addEventListener('click', changeColor);
+  
+  function changeColor(color) {
+  color.target.style.backgroundColor = colorSelected;
+  localPixelObj[keyObj] = color.target.style.backgroundColor;
+  localStorage.setItem('pixelBoard', JSON.stringify(localPixelObj));
+  };
+}
 
 let colorSelected = 'black';
 for (let i = 0; i < colorPalette.length; i += 1) {
@@ -60,18 +93,6 @@ for (let i = 0; i < colorPalette.length; i += 1) {
     colorSelected = color.target.style.backgroundColor;
   });
 }
-const divPixel = document.getElementsByClassName('pixel');
-let localPixelObj = {};
-
-for (let i = 0; i < divPixel.length; i += 1) {
-  const keyObj = `position${i}`;
-  divPixel[i].addEventListener('click', (color) => {
-  color.target.style.backgroundColor = colorSelected;
-  localPixelObj[keyObj] = color.target.style.backgroundColor;
-  localStorage.setItem('pixelBoard', JSON.stringify(localPixelObj));
-  });
-}
-
 const clearBoard = document.getElementById('clear-board');
 const pixelBoard = document.getElementsByClassName('pixel');
 clearBoard.addEventListener('click', clearBoardF) 
@@ -101,4 +122,16 @@ window.onload = () => {
       divPixel[i].style.backgroundColor = pixelParse[`position${i}`];
     }
   }
+    const localPixel = JSON.parse(localStorage.getItem('boardSize'));
+    createPixel(localPixel - 25);
+    for (let i = 0; i < divPixel.length; i += 1) {
+      const keyObj = `position${i}`;
+      divPixel[i].addEventListener('click', changeColor);
+  
+      function changeColor(color) {
+      color.target.style.backgroundColor = colorSelected;
+      localPixelObj[keyObj] = color.target.style.backgroundColor;
+      localStorage.setItem('pixelBoard', JSON.stringify(localPixelObj));
+      };
+    }
 };
