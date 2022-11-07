@@ -32,13 +32,19 @@ createPixel(25);
 const buttonVQV = document.getElementById('generate-board');
 buttonVQV.addEventListener('click', () => {
   const inputVQV = document.getElementById('board-size');
-  if (inputVQV.value <= 0) {
+  let inputValue = inputVQV.value;
+  if (inputValue < 5 && inputValue > 0) {
+    inputValue = 5;
+  } else if (inputValue > 50) {
+    inputValue = 50;
+  }
+  if (inputValue <= 0) {
     alert('Board Inválido!');
   } else {
     while (pixel.firstChild) {
       pixel.removeChild(pixel.firstChild);
     }
-    const valueInput = inputVQV.value ** 2;
+    const valueInput = inputValue ** 2;
     createPixel(valueInput);
   }
 });
