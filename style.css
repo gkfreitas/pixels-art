@@ -11,8 +11,7 @@
 }
 
 #pixel-board {
-  width: 100%;
-  max-width: 240px;
+  width: 240px;
 }
 
 .buttons {

@@ -20,13 +20,30 @@ randomColor.addEventListener('click', () => {
 });
 
 const pixel = document.getElementById('pixel-board');
-for (let i = 1; i <= 25; i += 1) {
-  const pixelDiv = document.createElement('div');
-  pixelDiv.className = 'pixel';
-  pixel.appendChild(pixelDiv);
+function createPixel(value) {
+  for (let i = 1; i <= value; i += 1) {
+    const pixelDiv = document.createElement('div');
+    pixelDiv.className = 'pixel';
+    pixel.appendChild(pixelDiv);
+  }
 }
+createPixel(25);
+
+const buttonVQV = document.getElementById('generate-board');
+buttonVQV.addEventListener('click', () => {
+  const inputVQV = document.getElementById('board-size');
+  if (inputVQV.value <= 0) {
+    alert('Board Inválido!');
+  } else {
+    while (pixel.firstChild) {
+      pixel.removeChild(pixel.firstChild);
+    }
+    const valueInput = inputVQV.value ** 2;
+    createPixel(valueInput);
+  }
+});
+
 let colorSelected = 'black';
-const divPixel = document.getElementsByClassName('pixel');
 for (let i = 0; i < colorPalette.length; i += 1) {
   colorPalette[i].addEventListener('click', (color) => {
     colorPalette[0].classList.remove('selected');
@@ -37,10 +54,11 @@ for (let i = 0; i < colorPalette.length; i += 1) {
     colorSelected = color.target.style.backgroundColor;
   });
 }
+const divPixel = document.getElementsByClassName('pixel');
 let localPixelObj = {};
+
 for (let i = 0; i < divPixel.length; i += 1) {
-  
-  let keyObj = `position${i}`;
+  const keyObj = `position${i}`;
   divPixel[i].addEventListener('click', (color) => {
   color.target.style.backgroundColor = colorSelected;
   localPixelObj[keyObj] = color.target.style.backgroundColor;
@@ -57,21 +75,6 @@ function clearBoardF() {
   }
   localStorage.removeItem('pixelBoard');
 };
-
-const buttonVQV = document.getElementById('generate-board');
-buttonVQV.addEventListener('click', () => {
-  clearBoardF();
-  const inputVQV = document.getElementById('board-size');
-  if (inputVQV.value <= 0) {
-    alert('Board Inválido!');
-  } else {
-    for (let i = 0; i < divPixel.length; i += 1) {
-      const valueInput = inputVQV.value ** 2;
-      divPixel[i].style.width = `${valueInput}px`;
-      divPixel[i].style.height = `${valueInput}px`;
-    }
-  }
-});
 
 window.onload = () => {
   if (localStorage.getItem('colorPalette') === null) {
